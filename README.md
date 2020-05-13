@@ -2,5 +2,6 @@
 
 [x] CRUD Notes And Users
 [x] Authentication
-[ ] Authorization
+[x] Authorization
+[ ] Get Single post or Users
 [ ] Refresh Tokens

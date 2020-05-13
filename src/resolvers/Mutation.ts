@@ -2,6 +2,7 @@ import { hash, compare } from 'bcryptjs'
 
 import { Context } from '../context'
 import { generateToken } from '../utils/jwt'
+import getUserId from '../utils/getUserId'
 
 const Mutation = {
   async createUser(parent: any, args: any, ctx: Context) {
@@ -43,17 +44,21 @@ const Mutation = {
   },
 
   async deleteUser(parent: any, args: any, ctx: Context) {
+    const userId = getUserId(ctx.req)
+
     return await ctx.prisma.users.delete({
       where: {
-        id: +args.id,
+        id: userId,
       },
     })
   },
 
   async updateUser(parent: any, args: any, ctx: Context) {
+    const userId = getUserId(ctx.req)
+
     return await ctx.prisma.users.update({
       where: {
-        id: +args.id,
+        id: userId,
       },
       data: {
         ...args.data,
@@ -62,13 +67,16 @@ const Mutation = {
   },
 
   async createPost(parent: any, args: any, ctx: Context) {
+    const userId = getUserId(ctx.req)
+    console.log(userId)
+
     return await ctx.prisma.posts.create({
       data: {
         body: args.data.body,
         title: args.data.title,
         user: {
           connect: {
-            id: +args.data.author,
+            id: userId,
           },
         },
       },
@@ -76,6 +84,18 @@ const Mutation = {
   },
 
   async deletePost(parent: any, args: any, ctx: Context) {
+    const userId = getUserId(ctx.req)
+
+    const post = await ctx.prisma.posts.findOne({
+      where: {
+        id: args.id,
+      },
+    })
+
+    if (!post || post.author !== userId) {
+      throw new Error('Post not found')
+    }
+
     return await ctx.prisma.posts.delete({
       where: {
         id: args.id,
@@ -84,6 +104,18 @@ const Mutation = {
   },
 
   async updatePost(parent: any, args: any, ctx: Context) {
+    const userId = getUserId(ctx.req)
+
+    const post = await ctx.prisma.posts.findOne({
+      where: {
+        id: args.id,
+      },
+    })
+
+    if (!post || post.author !== userId) {
+      throw new Error('Post not found')
+    }
+
     return await ctx.prisma.posts.update({
       where: {
         id: +args.id,
