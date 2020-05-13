@@ -16,9 +16,10 @@ model posts {
 }
 
 model users {
-  age   Int
-  email String  @unique
-  id    Int     @default(autoincrement()) @id
-  name  String
-  posts posts[]
+  age      Int
+  email    String  @unique
+  id       Int     @default(autoincrement()) @id
+  name     String
+  password String
+  posts    posts[]
 }
