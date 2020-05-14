@@ -1,5 +1,5 @@
 import { Context } from '../context'
-import getUserId from '../utils/getUserId'
+import { getUserId } from '../utils/decode'
 
 const Query = {
   async users(parent: any, args: any, ctx: Context, info: any) {

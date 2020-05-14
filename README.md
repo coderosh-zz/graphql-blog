@@ -4,5 +4,5 @@
 [x] Authentication
 [x] Authorization
 [x] Get Single post or Users
-[ ] Refresh Tokens
+[x] Refresh Tokens
 [ ] Subscriptions

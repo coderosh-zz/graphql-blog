@@ -1,8 +1,8 @@
 import { hash, compare } from 'bcryptjs'
 
 import { Context } from '../context'
-import { generateToken } from '../utils/jwt'
-import getUserId from '../utils/getUserId'
+import { generateToken, generateRefreshToken } from '../utils/jwt'
+import { getUserId, onValidRefresh } from '../utils/decode'
 
 const Mutation = {
   async createUser(parent: any, args: any, ctx: Context) {
@@ -17,6 +17,7 @@ const Mutation = {
     return {
       user,
       token: generateToken(`${user.id}`),
+      refresh: generateRefreshToken(`${user.id}`),
     }
   },
 
@@ -40,6 +41,7 @@ const Mutation = {
     return {
       user,
       token: generateToken(`${user.id}`),
+      refresh: generateRefreshToken(`${user.id}`),
     }
   },
 
@@ -64,6 +66,21 @@ const Mutation = {
         ...args.data,
       },
     })
+  },
+
+  async refreshToken(parent: any, args: any, ctx: Context) {
+    const decoded = onValidRefresh(args.token)
+
+    const user = await ctx.prisma.users.findOne({
+      where: {
+        id: +decoded.id,
+      },
+    })
+
+    return {
+      token: decoded.newToken,
+      user,
+    }
   },
 
   async createPost(parent: any, args: any, ctx: Context) {
