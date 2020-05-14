@@ -1,4 +1,6 @@
-## Blog App
+# Blog App
+
+Created with graphql, nodejs, and prisma
 
 [x] CRUD Notes And Users
 [x] Authentication
@@ -8,3 +10,6 @@
 [x] Update Password
 [x] Pagination
 [x] Subscriptions
+
+[ ] Logout
+[ ] Storing refresh tokens in cache
