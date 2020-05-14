@@ -4,6 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "build": "tsc",
+    "start": "node dist/server",
     "dev": "ts-node-dev -r dotenv/config --no-notify --respawn --transpileOnly src/server"
   },
   "author": "Roshan Acharya",

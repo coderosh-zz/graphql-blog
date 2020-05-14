@@ -8,6 +8,10 @@ const User = {
       },
     })
   },
+
+  email(parent: any) {
+    return parent.email
+  },
 }
 
 export default User

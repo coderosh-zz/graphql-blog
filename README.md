@@ -3,5 +3,6 @@
 [x] CRUD Notes And Users
 [x] Authentication
 [x] Authorization
-[ ] Get Single post or Users
+[x] Get Single post or Users
 [ ] Refresh Tokens
+[ ] Subscriptions
