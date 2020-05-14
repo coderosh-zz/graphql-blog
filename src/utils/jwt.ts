@@ -1,7 +1,7 @@
 import { sign, verify } from 'jsonwebtoken'
 
 const tokenSecret = process.env.JWT_SECRET || 'jwtsecret'
-const tokenExpiry = process.env.JWT_EXPIRE || '1m'
+const tokenExpiry = process.env.JWT_EXPIRE || '15m'
 
 const refreshSecret = process.env.REFRESH_SECRET || 'refreshsecret'
 const refreshExpiry = process.env.REFRESH_EXPIRE || '30d'

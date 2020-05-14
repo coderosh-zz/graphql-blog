@@ -17,6 +17,10 @@ type Mutation {
   updatePost(id: Int!, data: UpdatePostInput!): Post!
 }
 
+type Subscription {
+  post: PostSubscriptionPayload!
+}
+
 type AuthPayload {
   user: User!
   token: String!
@@ -70,4 +74,9 @@ type Post {
   title: String!
   body: String!
   author: User!
+}
+
+type PostSubscriptionPayload {
+  mutation: String!
+  data: Post!
 }

@@ -34,6 +34,7 @@ const Mutation = {
 
     const isMatch = await compare(args.data.password, user.password)
 
+    console.log(isMatch)
     if (!isMatch) {
       throw new Error('Invalid Credentials')
     }
@@ -87,9 +88,8 @@ const Mutation = {
 
   async createPost(parent: any, args: any, ctx: Context) {
     const userId = getUserId(ctx.req)
-    console.log(userId)
 
-    return await ctx.prisma.posts.create({
+    const post = await ctx.prisma.posts.create({
       data: {
         body: args.data.body,
         title: args.data.title,
@@ -100,6 +100,15 @@ const Mutation = {
         },
       },
     })
+
+    ctx.pubsub.publish('post', {
+      post: {
+        mutation: 'CREATED',
+        data: post,
+      },
+    })
+
+    return post
   },
 
   async deletePost(parent: any, args: any, ctx: Context) {
@@ -115,11 +124,20 @@ const Mutation = {
       throw new Error('Post not found')
     }
 
-    return await ctx.prisma.posts.delete({
+    const deletedPost = await ctx.prisma.posts.delete({
       where: {
         id: args.id,
       },
     })
+
+    ctx.pubsub.publish('post', {
+      post: {
+        mutation: 'DELETED',
+        data: deletedPost,
+      },
+    })
+
+    return deletedPost
   },
 
   async updatePost(parent: any, args: any, ctx: Context) {
@@ -135,12 +153,21 @@ const Mutation = {
       throw new Error('Post not found')
     }
 
-    return await ctx.prisma.posts.update({
+    const updatedPost = await ctx.prisma.posts.update({
       where: {
         id: +args.id,
       },
       data: args.data,
     })
+
+    ctx.pubsub.publish('post', {
+      post: {
+        mutation: 'UPDATED',
+        data: updatedPost,
+      },
+    })
+
+    return updatedPost
   },
 }
 

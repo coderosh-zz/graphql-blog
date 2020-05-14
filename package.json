@@ -21,6 +21,7 @@
     "@types/dotenv": "^8.2.0",
     "@types/jsonwebtoken": "^8.3.9",
     "@types/node": "^14.0.1",
+    "@types/ws": "^7.2.4",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "graphql-yoga": "^1.18.3",

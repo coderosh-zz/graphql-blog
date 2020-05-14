@@ -7,4 +7,4 @@
 [x] Refresh Tokens
 [x] Update Password
 [x] Pagination
-[ ] Subscriptions
+[x] Subscriptions
