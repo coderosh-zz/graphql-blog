@@ -3,40 +3,74 @@ import { getUserId } from '../utils/decode'
 
 const Query = {
   async users(parent: any, args: any, ctx: Context, info: any) {
+    let queryArgs = {}
+
+    if (args.query) {
+      queryArgs = {
+        ...queryArgs,
+        where: {
+          OR: [
+            {
+              name: {
+                contains: args.query,
+              },
+            },
+            {
+              email: {
+                contains: args.query,
+              },
+            },
+          ],
+        },
+      }
+    }
+
+    if (args.first) {
+      queryArgs = { ...queryArgs, first: args.first }
+    }
+
+    if (args.skip) {
+      queryArgs = { ...queryArgs, skip: args.skip }
+    }
+
     return await ctx.prisma.users.findMany({
-      where: {
-        OR: [
-          {
-            name: {
-              contains: args.query,
-            },
-          },
-          {
-            email: {
-              contains: args.query,
-            },
-          },
-        ],
-      },
+      ...queryArgs,
     })
   },
 
   async posts(parent: any, args: any, ctx: Context) {
+    let queryArgs = {}
+
+    if (args.query) {
+      queryArgs = {
+        ...queryArgs,
+        where: {
+          OR: [
+            {
+              title: {
+                contains: args.query,
+              },
+            },
+            {
+              body: {
+                contains: args.query,
+              },
+            },
+          ],
+        },
+      }
+    }
+
+    if (args.first) {
+      queryArgs = { ...queryArgs, first: args.first }
+    }
+
+    if (args.skip) {
+      queryArgs = { ...queryArgs, skip: args.skip }
+    }
+
     return await ctx.prisma.posts.findMany({
-      where: {
-        OR: [
-          {
-            title: {
-              contains: args.query,
-            },
-          },
-          {
-            body: {
-              contains: args.query,
-            },
-          },
-        ],
-      },
+      ...queryArgs,
     })
   },
 
