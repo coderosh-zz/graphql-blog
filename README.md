@@ -5,4 +5,6 @@
 [x] Authorization
 [x] Get Single post or Users
 [x] Refresh Tokens
+[x] Update Password
+[x] Pagination
 [ ] Subscriptions

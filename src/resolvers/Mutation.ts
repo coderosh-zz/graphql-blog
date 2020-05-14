@@ -58,13 +58,15 @@ const Mutation = {
   async updateUser(parent: any, args: any, ctx: Context) {
     const userId = getUserId(ctx.req)
 
+    if (args.data.password) {
+      args.data.password = await hash(args.data.password, 10)
+    }
+
     return await ctx.prisma.users.update({
       where: {
         id: userId,
       },
-      data: {
-        ...args.data,
-      },
+      data: args.data,
     })
   },
 
@@ -137,9 +139,7 @@ const Mutation = {
       where: {
         id: +args.id,
       },
-      data: {
-        ...args.data,
-      },
+      data: args.data,
     })
   },
 }
